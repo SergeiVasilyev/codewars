@@ -6,7 +6,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>
-    sbskdbvksd
+<body style="background-color:darkslategray; color: aliceblue;">
+    sbskdbvksd321321321
 </body>
+<script type="text/javascript">
+    // Getting all url params
+    function getUrlParams(key){
+        var url = document.location.href;
+        var qs = url.substring(url.indexOf('?') + 1).split('&')
+        console.log('request ' + qs)
+
+        for(var i = 0, url_params = {}; i < qs.length; i++){
+            qs[i] = qs[i].split('=');
+            console.log('KEY ' + qs[i][0])
+
+            if (qs[i][0].indexOf(key) != -1 || key === 'all') {
+                url_params[qs[i][0]] = decodeURIComponent(qs[i][1])
+            }  
+        }
+        return url_params
+    }
+    
+    // function addToUrl(list, place){
+
+    // }
+
+    console.log(getUrlParams("add"))
+    // console.log(addToUrl({'add2': '52', 'add3': '55'}))
+    
+</script>
 </html>
