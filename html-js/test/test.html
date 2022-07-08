@@ -11,7 +11,7 @@
 </body>
 <script type="text/javascript">
     // Getting all url params
-    function getUrlParams(key){
+    function getUrlParams(key){ // входное значение ИМЯ КЛЮЧА
         var url = document.location.href;
         var qs = url.substring(url.indexOf('?') + 1).split('&')
         console.log('request ' + qs)
@@ -26,12 +26,44 @@
         }
         return url_params
     }
+
+    function searchLastIdx(obj){ // Search bigest key and return it as key name and key number
+        // Search bigest index name
+        var r = /\d+/;
+        var last_key = ''
+        var last_indx = 0
+        for (const [key, value] of Object.entries(obj)) {
+            // console.log(`${key}: ${value}`)
+            if (key.match(r)[0] > last_indx) {
+                last_key = key
+                last_indx = key.match(r)[0]
+            }
+        }
+        // console.log('last_indx ', last_indx, last_key)
+        return [last_indx, last_key]
+    }
     
-    // function addToUrl(list, place){
+    function checkUpdateParams(url_params, newParams, key_name){
+        last_indx = parseInt(searchLastIdx(url_params)[0]) + 1
 
-    // }
+        Object.entries(newParams).forEach(([key, value]) => {
+            console.log('before ', key, value)
+            if (!Object.values(url_params).includes(value)){
+                url_params[key_name+last_indx] = value
+                last_indx += 1
+                console.log('after ', url_params)
+            }
+        })
+        return url_params
+    }
 
-    console.log(getUrlParams("add"))
+
+    // console.log(getUrlParams("add"))
+    let key_name = 'add'
+    let url_params = getUrlParams(key_name) // Getting all url parameters as a list, like (key1=12, key2=32)
+    let new_params = ['52', '55', '5', '32', '62'] // New url parameters we want to add to URL
+    checkUpdateParams(url_params, new_params, key_name) // Check old params and new params and adding just new keys and values
+
     // console.log(addToUrl({'add2': '52', 'add3': '55'}))
     
 </script>
