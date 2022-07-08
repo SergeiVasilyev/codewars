@@ -15,6 +15,7 @@
         var url = document.location.href;
         var qs = url.substring(url.indexOf('?') + 1).split('&')
         console.log('request ' + qs)
+        other_url_params = {}
 
         for(var i = 0, url_params = {}; i < qs.length; i++){
             qs[i] = qs[i].split('=');
@@ -22,9 +23,12 @@
 
             if (qs[i][0].indexOf(key) != -1 || key === 'all') {
                 url_params[qs[i][0]] = decodeURIComponent(qs[i][1])
-            }  
+            }else{
+                other_url_params[qs[i][0]] = decodeURIComponent(qs[i][1])
+            }
+            console.log('other_url_params ' + other_url_params)
         }
-        return url_params
+        return {url_params, other_url_params}
     }
 
     function searchLastIdx(obj){ // Search bigest key and return it as key name and key number
@@ -44,27 +48,54 @@
     }
     
     function checkUpdateParams(url_params, newParams, key_name){
-        last_indx = parseInt(searchLastIdx(url_params)[0]) + 1
+        // last_indx = parseInt(searchLastIdx(url_params)[0]) + 1
+        var new_url_params = {}
 
-        Object.entries(newParams).forEach(([key, value]) => {
+        Object.entries(newParams).forEach(([key, value]) => { // Adding new items firstly
             console.log('before ', key, value)
             if (!Object.values(url_params).includes(value)){
-                url_params[key_name+last_indx] = value
-                last_indx += 1
-                console.log('after ', url_params)
+                new_url_params[key_name+key] = value
             }
+            last_key = parseInt(key)
         })
-        return url_params
+        console.log('last_key ', last_key)
+
+        last_key += 1
+        Object.entries(url_params).forEach(([key, value]) => { // Then old items
+            new_url_params[key_name+last_key] = value
+            last_key += 1
+        })
+        // console.log('new_url_params ', new_url_params)
+        return new_url_params
+    }
+
+    function mergeURLandParams(paramsObj) {
+        var url = location.protocol + '//' + location.host + location.pathname + '?'
+        var i = 0
+        Object.entries(paramsObj).forEach(([key, value]) => { // key начинается с нуля - исправить
+            if (i === 0) url += key+'='+value 
+            else url += '&'+key+'='+value
+            i++
+        })
+        return url
     }
 
 
     // console.log(getUrlParams("add"))
     let key_name = 'add'
-    let url_params = getUrlParams(key_name) // Getting all url parameters as a list, like (key1=12, key2=32)
-    let new_params = ['52', '55', '5', '32', '62'] // New url parameters we want to add to URL
-    checkUpdateParams(url_params, new_params, key_name) // Check old params and new params and adding just new keys and values
+    var url_params = getUrlParams(key_name)['url_params'] // Getting all url parameters as a list, like (key1=12, key2=32)
+    var other_url_params = getUrlParams(key_name)['other_url_params'] // Getting other url parameters, where key_name != 'add'
+    console.log(url_params)
+    console.log(other_url_params)
 
-    // console.log(addToUrl({'add2': '52', 'add3': '55'}))
+    let new_params = ['52', '55', '5', '31', '62'] // New url parameters we want to add to URL
+    var updated_url_params = checkUpdateParams(url_params, new_params, key_name) // Check old params and new params and adding just new keys and values
+
+    var new_all_params = {...updated_url_params, ...other_url_params} // Merge 2 parameter lists 
+    console.log(new_all_params)
+    
+    url = mergeURLandParams(new_all_params)
+    console.log(url)
     
 </script>
 </html>
