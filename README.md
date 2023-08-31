@@ -1,1 +1,1 @@
-# codewars
+# Tasks from Codewars
