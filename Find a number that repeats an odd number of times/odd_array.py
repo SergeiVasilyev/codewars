@@ -61,4 +61,4 @@ def find_it4_2(seq):
     return result
 
 
-print(find_it2(seq))
+print(find_it(seq))

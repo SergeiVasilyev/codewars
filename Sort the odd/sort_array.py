@@ -1,9 +1,10 @@
 # Отсортировать все нечетные числа не меняя расположение четных
-# You will be given an array of numbers. You have to sort the odd numbers in ascending order while leaving the even numbers at their original positions.
+# You will be given an array of numbers. 
+# You have to sort the odd numbers in ascending order while leaving the even numbers at their original positions.
 import re
 
 
-source_array = [5, 8, 6, 3, 4]
+source_array = [5, 8, 6, 3, 4, 1]
 
 # 1
 def sort_array(source_array):
@@ -12,7 +13,7 @@ def sort_array(source_array):
         if el % 2:
             array.append(el)
     array.sort()
-    print(array)
+
     for i, el in enumerate(source_array):
         if el % 2 and array:
             source_array[i] = array[0]
