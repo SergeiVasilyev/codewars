@@ -8,9 +8,9 @@ import time
 def list_position(word):
     # Print all variantions using permutation function for check answer
     # Don't use for long words
-    sorted_word = sorted(word)
-    perms = set(permutations(sorted_word))
-    ic(sorted(perms))
+    # sorted_word = sorted(word)
+    # perms = set(permutations(sorted_word))
+    # ic(sorted(perms))
 
     all_variants = factorial(len(word))
     count = all_variants
@@ -20,7 +20,6 @@ def list_position(word):
             all_variants = factorial(len(word[key:]))
             if a < b:
                 count -= all_variants/len(word[key:])
-                ic(count, all_variants, all_variants/len(word[key:]))
     
     return count
 

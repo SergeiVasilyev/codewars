@@ -41,7 +41,8 @@ if __name__=='__main__':
     t0 = time.time()
 
     ic(list_position('ABAB'))
-    ic(list_position('ABC'))
+    ic(list_position('BABA'))
+    ic(list_position('BCAD'))
     ic(list_position('IMMUNOELECTROPHORETICALLY')) # 718393983731145698173
     ic(list_position('RIHZYJUQZFASRDHOYZMTGJLYH')) # 10490477337540115734010
     ic(list_position('LUNGWGFTQTEOLGWYQECLMYTCI')) # 1027085538706247306471
